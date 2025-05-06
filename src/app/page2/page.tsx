@@ -1,4 +1,4 @@
-/// <reference path="../env.d.ts" /> 
+ 
 'use client';
 
 import Link from 'next/link';
