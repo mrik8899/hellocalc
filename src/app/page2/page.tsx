@@ -1,3 +1,4 @@
+/// <reference path="../env.d.ts" /> 
 'use client';
 
 import Link from 'next/link';
@@ -10,20 +11,28 @@ export default function Page2() {
   const [listeningField, setListeningField] = useState<null | 'g' | 'h'>(null);
 
   const isValidNumber = (val: string) => !isNaN(parseFloat(val)) && isFinite(parseFloat(val));
-  const i = isValidNumber(g) && isValidNumber(h) && parseFloat(h) !== 0
-    ? parseFloat(g) / parseFloat(h)
-    : null;
+  const i =
+    isValidNumber(g) && isValidNumber(h) && parseFloat(h) !== 0
+      ? parseFloat(g) / parseFloat(h)
+      : null;
 
   const format = (num: number | null) =>
     num !== null ? Math.round(num).toLocaleString() : '';
 
   const handleVoiceInput = (field: 'g' | 'h') => {
-    if (typeof window === 'undefined' || !(window as any).webkitSpeechRecognition) {
+    // Type for speech recognition constructor
+    const SpeechRecognition =
+      typeof window !== 'undefined'
+        ? (window.SpeechRecognition ||
+            (window as any).webkitSpeechRecognition)
+        : null;
+
+    if (!SpeechRecognition) {
       alert('Speech recognition is not supported in this browser.');
       return;
     }
 
-    const recognition = new (window as any).webkitSpeechRecognition();
+    const recognition = new SpeechRecognition();
     recognition.lang = 'en-US';
     recognition.interimResults = false;
     recognition.maxAlternatives = 1;
@@ -31,7 +40,7 @@ export default function Page2() {
     setListeningField(field);
     recognition.start();
 
-    recognition.onresult = (event: any) => {
+    recognition.onresult = (event: SpeechRecognitionEvent) => {
       const transcript = event.results[0][0].transcript;
       const numberMatch = transcript.match(/\d+(\.\d+)?/);
       const number = numberMatch ? numberMatch[0] : '';
@@ -40,7 +49,7 @@ export default function Page2() {
       setListeningField(null);
     };
 
-    recognition.onerror = (event: any) => {
+    recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
       console.error('Speech recognition error:', event.error);
       alert(
         event.error === 'no-speech'
