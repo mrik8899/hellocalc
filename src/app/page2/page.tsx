@@ -1,16 +1,70 @@
- 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+
 'use client';
 
 import Link from 'next/link';
 import { useState } from 'react';
 import { MicrophoneIcon } from '@heroicons/react/24/solid';
 
+// ✅ Fix browser-only types so Next.js TypeScript doesn't crash
+
+declare global {
+  interface Window {
+    SpeechRecognition: any;
+    webkitSpeechRecognition: any;
+  }
+
+  interface SpeechRecognition extends EventTarget {
+    start(): void;
+    stop(): void;
+    onresult: ((event: any) => void) | null;
+    onerror: ((event: any) => void) | null;
+    onend: (() => void) | null;
+    lang: string;
+    interimResults: boolean;
+    maxAlternatives: number;
+  }
+}
+
+type SpeechRecognitionConstructor = new () => any;
+
+type SpeechRecognitionEvent = {
+  results: {
+    [key: number]: {
+      [key: number]: {
+        transcript: string;
+      };
+    };
+  };
+};
+
+// ✅ Final fix to stop TypeScript build error
+type SpeechRecognitionErrorEvent = {
+  error: string;
+};
+
+
+const getSpeechRecognition = (): SpeechRecognitionConstructor | null => {
+  if (typeof window === 'undefined') return null;
+
+  return (
+    window.SpeechRecognition ||
+    (window as typeof window & {
+      webkitSpeechRecognition?: SpeechRecognitionConstructor;
+    }).webkitSpeechRecognition ||
+    null
+  );
+};
+
 export default function Page2() {
   const [g, setG] = useState('');
   const [h, setH] = useState('');
   const [listeningField, setListeningField] = useState<null | 'g' | 'h'>(null);
 
-  const isValidNumber = (val: string) => !isNaN(parseFloat(val)) && isFinite(parseFloat(val));
+  const isValidNumber = (val: string) =>
+    !isNaN(parseFloat(val)) && isFinite(parseFloat(val));
+
   const i =
     isValidNumber(g) && isValidNumber(h) && parseFloat(h) !== 0
       ? parseFloat(g) / parseFloat(h)
@@ -20,13 +74,9 @@ export default function Page2() {
     num !== null ? Math.round(num).toLocaleString() : '';
 
   const handleVoiceInput = (field: 'g' | 'h') => {
-    // Type for speech recognition constructor
-    const SpeechRecognition =
-      typeof window !== 'undefined'
-        ? (window.SpeechRecognition ||
-            (window as any).webkitSpeechRecognition)
-        : null;
+    if (listeningField) return; // Prevent double triggers
 
+    const SpeechRecognition = getSpeechRecognition();
     if (!SpeechRecognition) {
       alert('Speech recognition is not supported in this browser.');
       return;
