@@ -135,11 +135,18 @@ export default function Page2() {
           </button>
         </div>
         <input
-          type="number"
-          value={g}
-          onChange={(e) => setG(e.target.value)}
+            type="text"
+            value={g ? parseFloat(g).toLocaleString() : ''}
+            onChange={(e) => {
+              const raw = e.target.value.replace(/,/g, '');
+              if (!isNaN(Number(raw))) {
+                setG(raw);
+              } else if (raw === '') {
+                setG('');
+              }
+            }}
           placeholder="Enter PK amount"
-          className="w-full p-2 mb-4 border rounded text-black"
+          className="w-full p-2 mb-4 border rounded bg-transparent"
         />
 
         {/* PHUS */}
@@ -154,11 +161,17 @@ export default function Page2() {
           </button>
         </div>
         <input
-          type="number"
-          value={h}
-          onChange={(e) => setH(e.target.value)}
-          placeholder="Enter PHUS"
-          className="w-full p-2 mb-4 border rounded text-black"
+          type="text"
+          value={h ? parseFloat(h).toLocaleString() : ''}
+          onChange={(e) => {
+            const raw = e.target.value.replace(/,/g, '');
+            if (!isNaN(Number(raw))) {
+              setH(raw);
+            } else if (raw === '') {
+              setH('');
+            }
+          }}
+          className="w-full p-2 mb-4 border rounded bg-transparent"
         />
 
         {/* PH amount */}
