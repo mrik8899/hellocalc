@@ -57,7 +57,7 @@ function formatNumberInput(value: string): string {
   return parts.length > 1 ? `${integerPart}.${parts[1]}` : integerPart;
 }
 
-export default function Page2() {
+export default function Page3() {
   const [g, setG] = useState('');
   const [h, setH] = useState('');
   const [listeningField, setListeningField] = useState<null | 'g' | 'h'>(null);
@@ -112,37 +112,35 @@ export default function Page2() {
   };
 
   return (
-  <main className="min-h-screen ml-48 flex flex-col md:flex-row p-4 space-y-4 md:space-y-0 md:space-x-6">
-
-   {/* ✅ Sidebar copied exactly from Home page for consistency */}
-<div
-  className="w-48 fixed top-0 left-0 bottom-0 bg-gradient-to-b from-[#1b2a3d] to-[#2a4d6d] text-white p-4 space-y-6 shadow-lg outline outline-2 outline-offset-2 outline-gray-700"
-  style={{
-    background: 'radial-gradient(circle, #1b2a3d, #2a4d6d)',
-  }}
->
-  <div className="space-y-4">
-    <Link
-      href="/"
-      className="block px-4 py-2 rounded-md text-lg font-medium hover:bg-[#3e5c74] hover:outline outline-2 outline-offset-2 outline-white"
-    >
-      Home
-    </Link>
-    <Link
-      href="/page2"
-      className="block px-4 py-2 rounded-md text-lg font-medium hover:bg-[#3e5c74] hover:outline outline-2 outline-offset-2 outline-white"
-    >
-      PK Amount
-    </Link>
-    <Link
-      href="/page3"
-      className="block px-4 py-2 rounded-md text-lg font-medium hover:bg-[#3e5c74] hover:outline outline-2 outline-offset-2 outline-white"
-    >
-      PH Amount
-    </Link>
-  </div>
-</div>
-
+    <main className="min-h-screen ml-48 flex flex-col md:flex-row p-4 space-y-4 md:space-y-0 md:space-x-6">
+      {/* ✅ Sidebar copied exactly from Home page for consistency */}
+      <div
+        className="w-48 fixed top-0 left-0 bottom-0 bg-gradient-to-b from-[#1b2a3d] to-[#2a4d6d] text-white p-4 space-y-6 shadow-lg outline outline-2 outline-offset-2 outline-gray-700"
+        style={{
+          background: 'radial-gradient(circle, #1b2a3d, #2a4d6d)',
+        }}
+      >
+        <div className="space-y-4">
+          <Link
+            href="/"
+            className="block px-4 py-2 rounded-md text-lg font-medium hover:bg-[#3e5c74] hover:outline outline-2 outline-offset-2 outline-white"
+          >
+            Home
+          </Link>
+          <Link
+            href="/page2"
+            className="block px-4 py-2 rounded-md text-lg font-medium hover:bg-[#3e5c74] hover:outline outline-2 outline-offset-2 outline-white"
+          >
+            PK Amount
+          </Link>
+          <Link
+            href="/page3"
+            className="block px-4 py-2 rounded-md text-lg font-medium hover:bg-[#3e5c74] hover:outline outline-2 outline-offset-2 outline-white"
+          >
+            PH Amount
+          </Link>
+        </div>
+      </div>
 
       {/* ✅ Main Content Area */}
       <div
@@ -152,12 +150,13 @@ export default function Page2() {
           color: '#f8f9fa',
         }}
       >
+        {/* PH amount */}
         <div className="mb-2 font-semibold flex justify-between items-center">
-          <span>PK amount</span>
+          <span>PH amount</span>
           <button
             onClick={() => handleVoiceInput('g')}
             className="ml-2 text-white"
-            aria-label="Speak PK amount"
+            aria-label="Speak PH amount"
           >
             <MicrophoneIcon className="h-5 w-5 hover:text-green-400 transition" />
           </button>
@@ -174,12 +173,13 @@ export default function Page2() {
               setG('');
             }
           }}
-          placeholder="Enter PK amount"
+          placeholder="Enter PH amount"
           className="w-full p-2 mb-4 border rounded bg-transparent"
         />
 
+        {/* PHUS */}
         <div className="mb-2 font-semibold flex justify-between items-center">
-          <span>PHUS</span>
+          <span>PHPK</span>
           <button
             onClick={() => handleVoiceInput('h')}
             className="ml-2 text-white"
@@ -207,7 +207,7 @@ export default function Page2() {
           <div className="mt-6 grid grid-cols-1 gap-2">
             {[-0.10, -0.05, 0, 0.05, 0.10].map((offset) => {
               const adjustedPHUS = hValue + offset;
-              const phAmount = adjustedPHUS !== 0 ? gValue / adjustedPHUS : null;
+              const phAmount = adjustedPHUS !== 0 ? gValue * adjustedPHUS : null; // Updated multiplication
 
               return (
                 <div
@@ -220,7 +220,7 @@ export default function Page2() {
                       <span> PH amount: {phAmount.toFixed(2)}</span>
                     </>
                   ) : (
-                    <div className="text-red-400">Invalid division</div>
+                    <div className="text-red-400">Invalid multiplication</div>
                   )}
                 </div>
               );
@@ -230,7 +230,7 @@ export default function Page2() {
 
         {listeningField && (
           <div className="mt-4 text-sm text-green-300 font-semibold animate-pulse">
-            Listening for {listeningField === 'g' ? 'PK amount' : 'PHUS'}...
+            Listening for {listeningField === 'g' ? 'PH amount' : 'PHUS'}...
           </div>
         )}
       </div>
