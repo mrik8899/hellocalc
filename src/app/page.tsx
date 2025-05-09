@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation'; // useRouter for programmatic navigation
 
 export default function Home() {
-  const router = useRouter(); // Initialize router
+  // const router = useRouter(); // Initialize router
 
   const [a, setA] = useState('');
   const [b, setB] = useState('');
