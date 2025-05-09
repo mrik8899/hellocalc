@@ -1,16 +1,13 @@
 'use client';
 
+import Navbar from './components/Navbar';
 import Link from 'next/link';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation'; // useRouter for programmatic navigation
 
 export default function Home() {
-  // const router = useRouter(); // Initialize router
-
   const [a, setA] = useState('');
   const [b, setB] = useState('');
   const [d, setD] = useState('');
-
   const [g, setG] = useState('');
   const [h, setH] = useState('');
 
@@ -37,49 +34,22 @@ export default function Home() {
   };
 
   return (
-    <main className="flex min-h-screen">
-      {/* ✅ Sidebar on the left with gradient background, shadow, and outline */}
-      <div
-        className="w-48 fixed top-0 left-0 bottom-0 bg-gradient-to-b from-[#1b2a3d] to-[#2a4d6d] text-white p-4 space-y-6 shadow-lg outline outline-2 outline-offset-2 outline-gray-700"
-        style={{
-          background: 'radial-gradient(circle, #1b2a3d, #2a4d6d)',
-        }}
-      >
-        <div className="space-y-4">
-          <Link
-            href="/"
-            className="block px-4 py-2 rounded-md text-lg font-medium hover:bg-[#3e5c74] hover:outline outline-2 outline-offset-2 outline-white"
-          >
-            Home
-          </Link>
-          <Link
-            href="/page2"
-            className="block px-4 py-2 rounded-md text-lg font-medium hover:bg-[#3e5c74] hover:outline outline-2 outline-offset-2 outline-white"
-          >
-            PK Amount
-          </Link>
-          <Link
-            href="/page3"
-            className="block px-4 py-2 rounded-md text-lg font-medium hover:bg-[#3e5c74] hover:outline outline-2 outline-offset-2 outline-white"
-          >
-            PH Amount
-          </Link>
-        </div>
-      </div>
+    <main className="flex flex-col min-h-screen pt-20">
+   
+   <Navbar />
 
-      {/* Main content on the right side */}
-     <div className="ml-48 flex flex-col items-start justify-start p-4 space-y-6 w-full max-w-screen-md">
-
+      {/* Main content */}
+      <div className="flex flex-col items-center justify-start p-4 space-y-6 w-full max-w-screen-md mx-auto h-full">
+ {/* Adjusted height */}
         {/* Box 1 */}
         <div
-          className="rounded-2xl p-6 w-full max-w-lg shadow-lg"
+          className="rounded-2xl p-6 w-full max-w-lg shadow-lg mb-4"
           style={{
             background: 'radial-gradient(circle, #1b2a3d, #2a4d6d)',
             color: '#f8f9fa',
           }}
         >
           <div className="mb-3 text-lg font-semibold text-center">USPK / USPH</div>
-
           <div className="flex gap-2 mb-4">
             <input
               type="number"
@@ -90,7 +60,6 @@ export default function Home() {
                 a ? 'border-green-400 ring-2 ring-green-300' : 'border-gray-300'
               }`}
             />
-
             <input
               type="number"
               value={b}
@@ -101,7 +70,6 @@ export default function Home() {
               }`}
             />
           </div>
-
           <div className="flex justify-center items-center border border-white/40 rounded-lg px-4 py-2 mt-2 space-x-2 text-xl backdrop-blur-sm">
             <span className="font-semibold">@</span>
             <span>{c !== null && !isNaN(c) ? c.toFixed(2) : ''}</span>
@@ -110,7 +78,7 @@ export default function Home() {
 
         {/* Box 2 */}
         <div
-          className="rounded-2xl p-6 w-full max-w-lg shadow-xl"
+          className="rounded-2xl p-6 w-full max-w-lg shadow-xl mb-4"
           style={{
             background: 'radial-gradient(circle, #1b2a3d, #2a4d6d)',
             color: '#f8f9fa',
@@ -141,21 +109,19 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Box 3 */}
+        {/* Box 3 
         <div
-          className="rounded-2xl p-6 w-full max-w-lg shadow-xl"
+          className="rounded-2xl p-6 w-full max-w-lg shadow-xl mb-4"
           style={{
             background: 'radial-gradient(circle, #1b2a3d, #2a4d6d)',
             color: '#f8f9fa',
           }}
         >
           <div className="mb-2 font-semibold text-center">PK amount ➝ PH amount</div>
-
           <div className="flex gap-2 mb-4">
             <input
               inputMode="numeric"
               value={g}
-              
               onChange={(e) => {
                 const raw = e.target.value.replace(/,/g, '');
                 if (/^\d*$/.test(raw)) {
@@ -173,12 +139,13 @@ export default function Home() {
               className="w-full p-2 rounded border"
             />
           </div>
-
           <div className="text-xl text-center mt-2">
             <span className="font-semibold">PH amount: </span>
             <span>{format(i)}</span>
           </div>
         </div>
+
+        */}
 
         {/* Refresh Button */}
         <button

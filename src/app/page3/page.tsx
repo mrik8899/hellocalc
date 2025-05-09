@@ -1,6 +1,5 @@
 'use client';
-
-import Link from 'next/link';
+import Navbar from '../components/Navbar'; // Adjust path if needed
 import { useState } from 'react';
 import { MicrophoneIcon } from '@heroicons/react/24/solid';
 
@@ -112,39 +111,12 @@ export default function Page3() {
   };
 
   return (
-    <main className="min-h-screen ml-48 flex flex-col md:flex-row p-4 space-y-4 md:space-y-0 md:space-x-6">
-      {/* ✅ Sidebar copied exactly from Home page for consistency */}
+    <main className="min-h-screen flex flex-col items-center p-4 space-y-4">
+      <Navbar />
+      
+      {/* Main Content Area */}
       <div
-        className="w-48 fixed top-0 left-0 bottom-0 bg-gradient-to-b from-[#1b2a3d] to-[#2a4d6d] text-white p-4 space-y-6 shadow-lg outline outline-2 outline-offset-2 outline-gray-700"
-        style={{
-          background: 'radial-gradient(circle, #1b2a3d, #2a4d6d)',
-        }}
-      >
-        <div className="space-y-4">
-          <Link
-            href="/"
-            className="block px-4 py-2 rounded-md text-lg font-medium hover:bg-[#3e5c74] hover:outline outline-2 outline-offset-2 outline-white"
-          >
-            Home
-          </Link>
-          <Link
-            href="/page2"
-            className="block px-4 py-2 rounded-md text-lg font-medium hover:bg-[#3e5c74] hover:outline outline-2 outline-offset-2 outline-white"
-          >
-            PK Amount
-          </Link>
-          <Link
-            href="/page3"
-            className="block px-4 py-2 rounded-md text-lg font-medium hover:bg-[#3e5c74] hover:outline outline-2 outline-offset-2 outline-white"
-          >
-            PH Amount
-          </Link>
-        </div>
-      </div>
-
-      {/* ✅ Main Content Area */}
-      <div
-        className="rounded-2xl p-6 w-full max-w-md shadow-xl"
+        className="rounded-2xl p-6 w-full max-w-md shadow-xl mt-20"
         style={{
           background: 'radial-gradient(circle, #1b2a3d, #2a4d6d)',
           color: '#f8f9fa',
@@ -152,7 +124,10 @@ export default function Page3() {
       >
         {/* PH amount */}
         <div className="mb-2 font-semibold flex justify-between items-center">
-          <span>PH amount</span>
+  <span className="flex items-center gap-2">
+    <img src="https://flagcdn.com/w40/ph.png" alt="Philippines Flag" className="w-6 h-4 rounded-sm" />
+    PH amount
+  </span>
           <button
             onClick={() => handleVoiceInput('g')}
             className="ml-2 text-white"
@@ -207,7 +182,7 @@ export default function Page3() {
           <div className="mt-6 grid grid-cols-1 gap-2">
             {[-0.10, -0.05, 0, 0.05, 0.10].map((offset) => {
               const adjustedPHUS = hValue + offset;
-              const phAmount = adjustedPHUS !== 0 ? gValue * adjustedPHUS : null; // Updated multiplication
+              const phAmount = adjustedPHUS !== 0 ? gValue * adjustedPHUS : null;
 
               return (
                 <div
